@@ -4,6 +4,28 @@ require 'dotenv/load'
 
 module OAuth
 
+    def get_access_token
+        @client = Client.new
+        puts @client.token
+        @client.token
+    end
+
+    class Authorize
+    include HTTParty
+        attr_accessor :token
+
+        def initialize()
+            env = Dotenv.parse('.env')
+            @client_id = env['CLIENT_ID']
+            @client_secret = env['CLIENT_SECRET']
+            @redirect_uri = env['REDIRECT_URL']
+            @url = "https://accounts.spotify.com/authorize?" + "client_id=" + @client_id + "&response_type=code&redirect_uri=" + @redirect_uri
+            res = HTTParty.get(@url)
+            @result = JSON.parse(res.body)
+            puts @result
+        end
+    end
+
     class Client
         include HTTParty
         attr_accessor :token
@@ -23,9 +45,7 @@ module OAuth
     end
 end
 
-include OAuth
+#include OAuth
 
-r = Client.new
-
-puts r.token
+#a = Authorize.new
 

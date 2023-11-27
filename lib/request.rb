@@ -31,5 +31,5 @@ include OAuth
 end
 
 include SpotifyRequests
-r = SpotifyRequests::Requests.new('/search', 'Miles Davis', 'artist')
+r = SpotifyRequests::Requests.new('/search', 'Laufey', 'artist')
 puts r.token
