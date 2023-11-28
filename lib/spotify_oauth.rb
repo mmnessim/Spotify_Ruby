@@ -6,7 +6,7 @@ module OAuth
 
     def get_access_token
         @client = Client.new
-        puts @client.token
+        #puts @client.token
         @client.token
     end
 
@@ -22,7 +22,7 @@ module OAuth
             @url = "https://accounts.spotify.com/authorize?" + "client_id=" + @client_id + "&response_type=code&redirect_uri=" + @redirect_uri
             res = HTTParty.get(@url)
             @result = JSON.parse(res.body)
-            puts @result
+            #puts @result
         end
     end
 
@@ -35,12 +35,12 @@ module OAuth
             @client_id = env['CLIENT_ID']
             @client_secret = env['CLIENT_SECRET']
             @redirect_uri = env['REDIRECT_URL']
-            puts env
+            #puts env
 
             res = HTTParty.post("https://accounts.spotify.com/api/token", :body => {grant_type:'client_credentials', client_id: @client_id, client_secret: @client_secret, redirect_uri: @redirect_url})
 
             @token = res['access_token']
-            puts res
+            #puts res
         end
     end
 end

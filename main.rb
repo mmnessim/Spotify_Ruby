@@ -1,9 +1,10 @@
 require 'sinatra/base'
 require 'json'
 require_relative 'lib/spotify_oauth'
+require_relative 'lib/request'
 
 class Server < Sinatra::Base
-include OAuth
+include SpotifyRequests
 
   BASE_URL = "https://api.spotify.com/v1/"
   def initialize
@@ -12,11 +13,9 @@ include OAuth
   end
 
   get '/' do
-    @token
-  end
-
-  get '/search' do
-    "You been redirected"
+    r = SpotifyRequests::Requests.new("/search", "Laufey", "artist", @token)
+    @result = r.result
+    JSON.pretty_generate(@result)
   end
 
 end
