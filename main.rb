@@ -14,8 +14,11 @@ include SpotifyRequests
 
   get '/' do
     r = SpotifyRequests::Requests.new("/search", "Laufey", "artist", @token)
-    @result = r.result
-    JSON.pretty_generate(@result)
+    @result = r.result['artists']['items']
+
+    puts @result
+    #
+    erb :index
   end
 
 end
