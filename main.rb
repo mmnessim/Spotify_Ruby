@@ -13,12 +13,12 @@ include SpotifyRequests
   end
 
   get '/' do
-    r = SpotifyRequests::Requests.new("/search", "Laufey", "artist", @token)
+    r = SpotifyRequests::Requests.new("/search", "Laufey", "artist", @token) #placeholder search
     @result = r.result['artists']['items']
-
-    puts @result
-    #
-    erb :index
+    @title = "Spotify Search"
+    #puts @result
+    @page = :index
+    erb :"templates/base"
   end
 
 end
