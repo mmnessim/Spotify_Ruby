@@ -7,28 +7,38 @@ class Server < Sinatra::Base
 include SpotifyRequests
 enable :sessions, :logging
 
-  BASE_URL = "https://api.spotify.com/v1/"
+  BASE_URL = "https://api.spotify.com/v1/" #does this need to be here???
   def initialize
       super
-      @token = get_access_token
   end
 
   get '/' do
-    session['code'] = params['code']
-    puts session['code']
-    r = SpotifyRequests::Requests.new("/search", "Laufey", "artist", @token)
-    #placeholder search
-    @result = r.result['artists']['items']
-    @title = "Spotify Search"
-    puts @result
-    @page = :index
-    erb :"templates/base"
+    if session['access_token'] == nil
+      "not logged in"
+    else
+      @token = session['access_token']
+      r = SpotifyRequests::Requests.new("/search", "Laufey", "artist", @token)
+      #placeholder search
+      @result = r.result['artists']['items']
+      @title = "Spotify Search"
+      #puts @result
+      @page = :index
+      erb :"templates/base"
+    end
   end
 
   get '/login' do
-    #current redirects to '/', but needs to redirect to another endpoint to get the token after using the code, THEN it can go to '/'
     a = SpotifyRequests::Authorize.new
     redirect a.url
+  end
+
+  get '/callback' do
+    @code = params['code']
+    puts @code
+    a = SpotifyRequests::Client.new(@code)
+    @token = a.token
+    session['access_token'] = @token
+    redirect '/'
   end
 
 end
