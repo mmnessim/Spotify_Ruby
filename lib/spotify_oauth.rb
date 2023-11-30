@@ -26,21 +26,6 @@ module OAuth
         end
     end
 
-    class AuthToken
-        include HTTParty
-        attr_accessor :token, :result
-
-        def initialize(code)
-            env = Dotenv.parse('.env')
-            @client_id = env['CLIENT_ID']
-            @client_secret = env['CLIENT_SECRET']
-            @redirect_uri = env['REDIRECT_URL']
-            res = HTTParty.post("https://accounts.spotify.com/api/token", :body => {grant_type:'authorization_code', code: code, redirect_uri: @redirect_uri, client_id: @client_id, client_secret: @client_secret, content_type: 'application/x-www-form-urlencoded'})
-            puts res
-        end
-
-    end
-
     class Client
         include HTTParty
         attr_accessor :token
