@@ -12,7 +12,7 @@ module OAuth
 
     class Authorize
     include HTTParty
-        attr_accessor :token
+        attr_accessor :token, :url
 
         def initialize()
             env = Dotenv.parse('.env')
@@ -20,8 +20,8 @@ module OAuth
             @client_secret = env['CLIENT_SECRET']
             @redirect_uri = env['REDIRECT_URL']
             @url = "https://accounts.spotify.com/authorize?" + "client_id=" + @client_id + "&response_type=code&redirect_uri=" + @redirect_uri
-            res = HTTParty.get(@url)
-            @result = JSON.parse(res.body)
+            #res = HTTParty.get(@url)
+            #@result = JSON.parse(res.body)
             #puts @result
         end
     end
