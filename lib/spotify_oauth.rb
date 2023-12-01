@@ -43,7 +43,7 @@ module OAuth
             end
 
             @token = res['access_token']
-            puts res
+            #puts res
         end
     end
 end
